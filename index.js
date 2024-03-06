@@ -3,12 +3,10 @@ import fetch from "node-fetch";
 
 (async () => {
   try {
-
-    const host = 'http://localhost:3000';
-    const login = '';
-    const password = '';
-    // const host = 'https://api.racedevspace.com';
-    // const host = 'https://api.racelane.io';
+    const event_id = process.env.event_id; //110
+    const host = process.env.host; //'http://localhost:3000', 'https://api.racedevspace.com', 'https://api.racelane.io'
+    const login = process.env.login; //'test'
+    const password = process.env.password; //'test'
 
     const response = await fetch(`${host}/api/v1/auth/signin`, {
       method: 'post',
@@ -20,10 +18,12 @@ import fetch from "node-fetch";
     });
     const data = await response.json();
 
-    const socket = io(`${host}/ws/members-distribution`,
+    const socket = io(`${host}/socket.io/v1/events/${event_id}/members/distribution`,
       {
         transports: ['websocket'],
-        query: { event_id: 110 },
+        extraHeaders: {
+          'accept-language': 'ru',
+        },
         auth: { token: data.token }
       });
 
