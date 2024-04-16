@@ -9,7 +9,7 @@ import fetch from "node-fetch";
     const password = process.env.password; //'test'
     const type = +process.env.type; //1
 
-    const response = await fetch(`${host}/api/v1/auth/signin`, {
+    const response = await fetch(`${host}/api/v2/auth/signin`, {
       method: 'post',
       body: JSON.stringify({
         login,
@@ -19,7 +19,7 @@ import fetch from "node-fetch";
     });
     const data = await response.json();
 
-    const socket = io(`${host}/socket.io/v1/events/${event_id}/results`,
+    const socket = io(`${host}/socket.io/v2/events/${event_id}/results`,
       {
         transports: ['websocket'],
         query: {
@@ -36,8 +36,12 @@ import fetch from "node-fetch";
     });
 
     socket.on("event-results", (data) => {
-      console.log(data);
+      console.log("event-results", data);
     });
+
+    socket.on("event-finished", (data) => {
+      console.log("event-finished");
+    })
 
     socket.on("disconnect", () => {
       console.log("disconnected");
