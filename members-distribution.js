@@ -8,7 +8,7 @@ import fetch from "node-fetch";
     const login = process.env.login; //'test'
     const password = process.env.password; //'test'
 
-    const response = await fetch(`${host}/api/v1/auth/signin`, {
+    const response = await fetch(`${host}/api/v2/auth/signin`, {
       method: 'post',
       body: JSON.stringify({
         login,
@@ -18,7 +18,7 @@ import fetch from "node-fetch";
     });
     const data = await response.json();
 
-    const socket = io(`${host}/socket.io/v1/events/${event_id}/members/distribution`,
+    const socket = io(`${host}/socket.io/v2/events/${event_id}/members/distribution`,
       {
         transports: ['websocket'],
         extraHeaders: {
